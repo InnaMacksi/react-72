@@ -1,5 +1,7 @@
 import React from "react";
 import reactLogo from './assets/react.svg'
+import SearchForm from "./components/SearchForm/SearchForm";
+import List from "./components/List/List";
 
 const stories = [
     {
@@ -29,6 +31,8 @@ function App() {
                 </a>
                 <h1>Hacker Stories</h1>
             </div>
+            <SearchForm />
+            <List stories={stories}/>
         </div>
     )
 }
