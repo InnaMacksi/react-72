@@ -1,8 +1,12 @@
-const SearchForm = props => {
-    return (<form>
-    <label htmlFor="search">Search: </label>
-    <input id="search" type="text" />
-    <button type="submit">Submit</button>
-    </form>)
+import { StyledButtonLarge, StyledForm, StyledInput, StyledLabel } from "../../styles";
+
+const SearchForm = (props) => {
+  return (
+    <StyledForm>
+      <StyledLabel htmlFor="search">Search: </StyledLabel>
+      <StyledInput id="search" type="text" />
+      <StyledButtonLarge type="submit">Submit</StyledButtonLarge>
+    </StyledForm>
+  );
 };
 export default SearchForm;
