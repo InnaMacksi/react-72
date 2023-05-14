@@ -4,42 +4,30 @@ import SearchForm from "./components/SearchForm/SearchForm";
 import List from "./components/List/List";
 import SearchTerm from "./components/SearchTerm/SearchTerm";
 import { StyledContainer, StyledTitle } from "./styles";
+import { fetchData } from "./Api";
 
 class App extends Component {
   state = {
     searchTerm: "",
-    stories: [
-      {
-        title: "React",
-        url: "https://reactjs.org/",
-        author: "Jordan Walke",
-        num_comments: 3,
-        points: 4,
-        objectID: 0,
-      },
-      {
-        title: "Redux",
-        url: "https://redux.js.org/",
-        author: "Dan Abramov, Andrew Clark",
-        num_comments: 2,
-        points: 5,
-        objectID: 1,
-      },
-    ],
+    stories: [],
+    isLoading: false,
+    isError: false,
   };
 
   componentDidMount() {
     const searchTerm = localStorage.getItem("searchTerm");
     if (searchTerm) {
       this.setState({ searchTerm });
-    }
+    };
+   this.fetchStories()
   }
 
   componentDidUpdate(_, { searchTerm }) {
     if (searchTerm !== this.state.searchTerm) {
       localStorage.setItem("searchTerm", this.state.searchTerm);
-    }
-  }
+      this.fetchStories()
+    };
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -50,11 +38,26 @@ class App extends Component {
     event.target.reset();
   };
 
-  filterStories = () => {
-    return this.state.stories.filter((story) =>
-      story.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())
-    );
+  fetchStories = () => {
+    this.setState({ isLoading: true });
+
+    fetchData(this.state.searchTerm).then(res => {
+      this.setState({ stories: res.hits })
+    }).catch((error) => {
+      this.setState({ isError: true })
+    }).finally(() => {
+      this.setState({ isLoading: false })
+    });
   };
+
+  // filterStories = () => {
+  //   return this.state.stories.filter((story) => {
+  //     if (!story.title) return true;    
+  //       return story.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+  //   }
+      
+  //   );
+  // };
 
   handleRemoveStory = (objectID) => {
     this.setState((prevState) => ({
@@ -67,7 +70,7 @@ class App extends Component {
   };
 
   render() {
-    const { searchTerm } = this.state;
+    const { searchTerm, isLoading, isError, stories } = this.state;
     return (
       <StyledContainer>
         <div>
@@ -78,7 +81,9 @@ class App extends Component {
         </div>
         <SearchForm handleSubmit={this.handleSubmit} />
         {searchTerm && <SearchTerm searchTerm={searchTerm} onClick={this.resetSearchTerm} />}
-        <List stories={this.filterStories()} handleRemoveStory={this.handleRemoveStory} />
+        {isLoading && <p>Loading</p>}
+        {isError && <p>Something went wrong</p>}
+        <List stories={stories} handleRemoveStory={this.handleRemoveStory} />
       </StyledContainer>
     );
   }
