@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import reactLogo from "./assets/react.svg";
 import SearchForm from "./components/SearchForm/SearchForm";
 import List from "./components/List/List";
+import SearchTerm from "./components/SearchTerm/SearchTerm";
 import { StyledContainer, StyledTitle } from "./styles";
-
 
 class App extends Component {
   state = {
-    searchTerm: '',
+    searchTerm: "",
     stories: [
       {
         title: "React",
@@ -25,7 +25,20 @@ class App extends Component {
         points: 5,
         objectID: 1,
       },
-    ]
+    ],
+  };
+
+  componentDidMount() {
+    const searchTerm = localStorage.getItem("searchTerm");
+    if (searchTerm) {
+      this.setState({ searchTerm });
+    }
+  }
+
+  componentDidUpdate(_, { searchTerm }) {
+    if (searchTerm !== this.state.searchTerm) {
+      localStorage.setItem("searchTerm", this.state.searchTerm);
+    }
   }
 
   handleSubmit = (event) => {
@@ -33,21 +46,28 @@ class App extends Component {
 
     const searchTerm = event.target.elements.search.value;
 
-    this.setState({searchTerm});
-  }
+    this.setState({ searchTerm });
+    event.target.reset();
+  };
 
   filterStories = () => {
-
-    return this.state.stories.filter(story => story.title.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
-  }
+    return this.state.stories.filter((story) =>
+      story.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+    );
+  };
 
   handleRemoveStory = (objectID) => {
-    this.setState(prevState => ({
-      stories: prevState.stories.filter(story => story.objectID !== objectID)}))
+    this.setState((prevState) => ({
+      stories: prevState.stories.filter((story) => story.objectID !== objectID),
+    }));
+  };
 
-  }
+  resetSearchTerm = () => {
+    this.setState({ searchTerm: "" });
+  };
 
-  render () {
+  render() {
+    const { searchTerm } = this.state;
     return (
       <StyledContainer>
         <div>
@@ -57,11 +77,11 @@ class App extends Component {
           <StyledTitle>Hacker Stories</StyledTitle>
         </div>
         <SearchForm handleSubmit={this.handleSubmit} />
+        {searchTerm && <SearchTerm searchTerm={searchTerm} onClick={this.resetSearchTerm} />}
         <List stories={this.filterStories()} handleRemoveStory={this.handleRemoveStory} />
       </StyledContainer>
     );
   }
 }
-
 
 export default App;

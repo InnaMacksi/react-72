@@ -53,6 +53,7 @@ const StyledButton = styled.button`
 `;
 
 export const StyledButtonSmall = styled(StyledButton)`
+  width: 100px;
   padding: 5px;
 `;
 
