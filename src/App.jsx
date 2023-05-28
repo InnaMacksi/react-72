@@ -5,16 +5,16 @@ import List from "./components/List/List";
 import SearchTerm from "./components/SearchTerm/SearchTerm";
 import { StyledContainer, StyledTitle } from "./styles";
 import { fetchData } from "./Api";
+import useSemiPersistentState from "./hooks/useSemiPersistentState";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem("searchTerm") || "");
+  const [searchTerm, setSearchTerm] = useSemiPersistentState('searchTerm', '');
   const [stories, setStories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     fetchStories();
-    localStorage.setItem("searchTerm", searchTerm);
   }, [searchTerm]);
 
   const handleSubmit = (event) => {
