@@ -1,10 +1,10 @@
 import { StyledButtonLarge, StyledForm, StyledInput, StyledLabel } from "../../styles";
 
-const SearchForm = ({handleSubmit}) => {
+const SearchForm = ({handleSubmit, handleChange, inputState}) => {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledLabel htmlFor="search">Search: </StyledLabel>
-      <StyledInput id="search" type="text" />
+      <StyledInput onChange={handleChange} id="search" type="text" value={inputState}/>
       <StyledButtonLarge type="submit">Submit</StyledButtonLarge>
     </StyledForm>
   );

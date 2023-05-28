@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import reactLogo from "./assets/react.svg";
 import SearchForm from "./components/SearchForm/SearchForm";
 import List from "./components/List/List";
@@ -12,17 +12,20 @@ function App() {
   const [stories, setStories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [inputState, setInputState] = useState('')
 
   useEffect(() => {
     fetchStories();
   }, [searchTerm]);
 
+  const handleChange = (event) => {
+    setInputState(event.target.value)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const searchTerm = event.target.elements.search.value;
-
-    setSearchTerm(searchTerm);
+    setSearchTerm(inputState);
     event.target.reset();
   };
 
@@ -41,9 +44,12 @@ function App() {
       });
   };
 
-  const handleRemoveStory = (objectID) => {
-    setStories(() => stories.filter((story) => story.objectID !== objectID));
-  };
+
+
+  const handleRemoveStory = useCallback(
+  (objectID) => {
+    setStories((stories) => stories.filter((story) => story.objectID !== objectID));
+  }, []);
 
   const resetSearchTerm = () => {
     setSearchTerm("");
@@ -57,7 +63,7 @@ function App() {
         </a>
         <StyledTitle>Hacker Stories</StyledTitle>
       </div>
-      <SearchForm handleSubmit={handleSubmit} />
+      <SearchForm handleSubmit={handleSubmit} handleChange={handleChange} inputState={inputState} />
       {searchTerm && <SearchTerm searchTerm={searchTerm} onClick={resetSearchTerm} />}
       {isLoading && <p>Loading</p>}
       {error && <p>Something went wrong</p>}
