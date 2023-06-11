@@ -11,57 +11,18 @@ import {
   Text,
   Todo,
 } from 'components';
+import { useSelector } from 'react-redux';
+import { getTodos } from 'redux/toDoSlice';
 
-export class App extends Component {
-  state = {
-    todos: [],
-  };
-
-  componentDidMount() {
-    const todos = JSON.parse(localStorage.getItem('todos'));
-
-    if (todos) {
-      this.setState(() => ({ todos }));
-    }
-  }
-  componentDidUpdate(prevProps, prevState) {
-    const { todos } = this.state;
-
-    if (prevState.todos !== todos) {
-      localStorage.setItem('todos', JSON.stringify(todos));
-    }
-  }
-
-  addTodo = text => {
-    const todo = {
-      id: nanoid(),
-      text,
-    };
-
-    this.setState(({ todos }) => ({
-      todos: [...todos, todo],
-    }));
-  };
-
-  handleSubmit = data => {
-    this.addTodo(data);
-  };
-
-  deleteTodo = id => {
-    this.setState(prevState => ({
-      todos: prevState.todos.filter(todo => todo.id !== id),
-    }));
-  };
-
-  render() {
-    const { todos } = this.state;
+export function App() {
+const todos = useSelector(getTodos);
 
     return (
       <>
         <Header />
         <Section>
           <Container>
-            <SearchForm onSubmit={this.handleSubmit} />
+            <SearchForm/>
 
             {todos.length === 0 && (
               <Text textAlign="center">There are no any todos ... </Text>
@@ -75,7 +36,6 @@ export class App extends Component {
                       id={todo.id}
                       text={todo.text}
                       counter={index + 1}
-                      onClick={this.deleteTodo}
                     />
                   </GridItem>
                 ))}
@@ -85,4 +45,3 @@ export class App extends Component {
       </>
     );
   }
-}
