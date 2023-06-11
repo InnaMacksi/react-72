@@ -1,16 +1,31 @@
-# Hacker Stories
+# Заняття 4
 
-## Lesson 1
-- [Task 1 - Create main components](./tasks/lesson_1/task%231.md)
-- [Task 2 - Add styles to components](./tasks/lesson_1/task%232.md)
-- [Task 3 - add state for search form value](./tasks/lesson_1/task%233.md)
+## Завдання
 
-## Lesson 2
-- [Task 1 - Search filtering & item deletion](./tasks/lesson_2/task%231.md)
-- [Task 2 - Display actual searchTerm & save searchTerm in localStorage](./tasks/lesson_2/task%232.md)
-- [Task 3 - Add data fetching and conditional rendering](./tasks/lesson_2/task%233.md)
+Виконай рефакторинг коду застосунку **"TODO LIST"**, додавши управління станом
+за допомогою бібліотеки [Redux Toolkit](https://redux-toolkit.js.org/).
 
-## Lesson 3
-- [Task 1 - Rewrite whole App with hooks](./tasks/lesson_3/task%231.md)
-- [Task 2 - Create custom hook for local storage](./tasks/lesson_3/task%232.md)
-- [Task 3 - Prevent List from rerendering on Search](./tasks/lesson_3/task%233.md)
+Нехай Redux-state виглядає наступним чином.
+
+```bash
+{
+  todos: [],
+}
+```
+
+- Створи сховище з `configureStore()`
+- Створи редюсери todo. Використовуй функцію `createSlice()`.
+- Зв'яжи React-компоненти з Redux-логікою за допомогою хуків бібліотеки
+
+```bash
+npm install @reduxjs/toolkit react-redux
+```
+
+[react-redux](https://react-redux.js.org/).
+
+- Для зберігання всего `state` застосунку в `local storage` використовуй
+  бібліотеку [redux-persist](https://github.com/rt2zz/redux-persist#basic-usage)
+
+- використовуй цей
+  [конфіг](https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist)
+  для `store`
