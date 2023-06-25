@@ -50,6 +50,6 @@ Comment.propTypes = {
   content: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
-  thumbsUp: PropTypes.number.isRequired,
-  thumbsDown: PropTypes.number.isRequired,
+  thumbsUp: PropTypes.number,
+  thumbsDown: PropTypes.number,
 };

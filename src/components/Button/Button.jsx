@@ -33,7 +33,7 @@ export const Button = ({ children, counter, role = 'thumbsUp', id }) => {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  counter: PropTypes.number.isRequired,
+  counter: PropTypes.number,
   role: PropTypes.string,
   id: PropTypes.string.isRequired,
 };
