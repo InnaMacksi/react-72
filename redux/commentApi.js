@@ -9,7 +9,9 @@ export const commentApi = createApi({
     baseUrl: BASE_URL,
   }),
   tagTypes: ['Comments'],
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getComments: builder.query({ query: () => API_ENDPOINT})
+  }),
 });
 
-export const {} = commentApi;
+export const {useGetCommentsQuery} = commentApi;
