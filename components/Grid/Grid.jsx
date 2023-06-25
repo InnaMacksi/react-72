@@ -10,5 +10,5 @@ export const Grid = ({ children }) => {
 };
 
 Grid.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
